@@ -24,6 +24,16 @@ document.addEventListener('DOMContentLoaded', function() {
   // Agregar el evento de clic al botón
   document.getElementById('toggle-projects').addEventListener('click', toggleProjects);
   document.getElementById('toggle-games').addEventListener('click', toggleGames);
+
+  // Agregar eventos a los campos del formulario
+  const formElements = document.querySelectorAll('input[type="text"], textarea');
+  formElements.forEach(element => {
+    element.addEventListener('focus', handleFocus);
+    element.addEventListener('blur', handleBlur);
+  });
+
+  // Agregar evento al botón de enviar
+  document.getElementById('submit-button').addEventListener('click', handleSubmit);
 });
 
 function toggleProjects() {
@@ -48,4 +58,26 @@ function toggleGames() {
 
   const buttonText = isAnyVisible ? 'Ver más juegos' : 'Ver menos juegos';
   document.getElementById('toggle-games').textContent = buttonText;
+}
+
+function handleFocus(event) {
+  event.target.style.backgroundColor = '#751515'; // Cambiar color de fondo al enfocar
+  event.target.style.color = '#fff'; // Cambiar color de texto al enfocar
+}
+
+function handleBlur(event) {
+  event.target.style.backgroundColor = ''; // Restaurar color de fondo al desenfocar
+  event.target.style.color = ''; // Restaurar color de texto al desenfocar
+  event.target.value = event.target.value.toUpperCase(); // Convertir texto a mayúsculas
+}
+
+function handleSubmit(event) {
+  event.preventDefault(); // Prevenir el envío del formulario por defecto
+  const formElements = document.querySelectorAll('input[type="text"], textarea');
+  if (formElements.length >= 2) {
+    const firstInput = formElements[0];
+    const secondInput = formElements[1];
+    const message = `Nombre: ${firstInput.value}\nCorreo: ${secondInput.value}`;
+    alert(message); // Mostrar caja de confirmación con los valores de los primeros dos inputs
+  }
 }
